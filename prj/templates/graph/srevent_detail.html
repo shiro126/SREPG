@@ -22,7 +22,8 @@
               <h4>{{ object.title }}</h4>
             </div>
             <div class="card-body px-0 py-2">
-              <canvas id="myChart" width="400" height="250"></canvas>
+              <canvas id="myChartLarge" width="400" height="250" class="d-none d-md-block"></canvas>
+              <canvas id="myChartSmall" width="400" height="600" class="d-md-none d-block"></canvas>
             </div>
           </div>
         </div>
@@ -31,14 +32,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
     <script>
-      var ctx = document.getElementById('myChart').getContext('2d');
+      var ctxl = document.getElementById('myChartLarge').getContext('2d');
+      var ctxs = document.getElementById('myChartSmall').getContext('2d');
       var data = {
-        "labels": {{ object.schedule_json|safe }},
-        "datasets": {{ object.make_datasets|safe }},
-      }
-      var myChart = new Chart(ctx, {
         "type": "line",
-        "data": data,
+        "data": {
+          "labels": {{ object.schedule_json|safe }},
+          "datasets": {{ object.make_datasets|safe }},
+        },
         "options":{
          "legend": {             // 凡例の設定
              "position": "bottom",     // 表示位置
@@ -49,7 +50,9 @@
             }
           }
         }
-      });
+      }
+      var myChart = new Chart(ctxl, data);
+      var myChart = new Chart(ctxs, data);
     </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
