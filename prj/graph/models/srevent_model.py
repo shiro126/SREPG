@@ -64,7 +64,11 @@ class SREvent(models.Model):
 
     def make_datasets(self):
         # グラフ用のデータセットを作成
-        room_list = sorted(list(self.room.all()), key=lambda x: x.last_point)
+        room_list = sorted(
+            list(self.room.all()),
+            key=lambda x: x.last_point,
+            reverse=True,
+        )
         datasets = [x.make_dataset() for x in room_list]
         return json.dumps(datasets)
 
