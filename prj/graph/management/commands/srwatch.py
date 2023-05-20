@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
     def srwatch(self):
         now_dt = timezone.now().replace(second=0, microsecond=0)
-        if True or now_dt.minute in [0, 15, 30, 45]:
+        if now_dt.minute in [0, 15, 30, 45]:
             # イベント開始処理
             event_list = SREvent.objects.filter(is_published=False)
             for event in event_list:
