@@ -34,6 +34,39 @@
           </div>
         </div>
       </div>
+      <div class="row my-4">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <span class="h4">Ranking</span>
+              <span class="text-secondary ml-3">{{ object.last_watch_dt }}現在</span>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-sm table-striped">
+                <tr>
+                  <th class="pl-4">#</th>
+                  <th>ルーム名</th>
+                  <th>ポイント</th>
+                  <th>過去1時間での増加ポイント</th>
+                </tr>
+                {% for room in object.room_ranking %}
+                <tr>
+                  <td class="align-middle pl-4">{{ forloop.counter }}</td>
+                  <td class="align-middle">{{ room.name }}</td>
+                  <td class="align-middle">{{ room.last_point }} pt</td>
+                  <td class="align-middle text-secondary">+ {{ room.point_increment }} pt</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="4">
+                    表示できるルームがありません。
+                  </td>
+                <tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>

@@ -45,6 +45,15 @@ class Room(models.Model):
                 return self.point[-1]
         return 0
 
+    @property
+    def point_increment(self):
+        if type(self.point) == list:
+            if len(self.point) > 2:
+                return self.point[-1] - self.point[-2]
+            elif len(self.point) > 0:
+                return self.point[-1]
+        return 0
+
     def make_dataset(self):
         # グラフ用のデータセットを作成
         dataset = {

@@ -62,6 +62,15 @@ class SREvent(models.Model):
     def schedule_json(self):
         return json.dumps(self.schedule)
 
+    @property
+    def room_ranking(self):
+        room_list = sorted(
+            self.room.all(),
+            key=lambda x: x.last_point,
+            reverse=True,
+        )
+        return room_list
+
     def make_datasets(self):
         # グラフ用のデータセットを作成
         room_list = [x for x in self.room.all() if x.last_point > 0]
