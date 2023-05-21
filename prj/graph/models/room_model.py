@@ -62,19 +62,14 @@ class Room(models.Model):
     def get_point(self):
         # ポイント取得
         try:
-            try:
-                url = consts.API_ROOM_EVENT_AND_SUPPORT
-                params = {
-                    'room_id': self.room_id,
-                }
-                r = requests.get(url, params=params)
-                r.raise_for_status()
-                data = r.json()
-                point = data["event"]["ranking"]["point"]
-            except Exception as e:
-                print(f'[ERROR][Room.get_point({self.room_id=})]ルーム参加イベント情報API実行時にエラーが発生しました。({e})')
-                raise e
-
+            url = consts.API_ROOM_EVENT_AND_SUPPORT
+            params = {
+                'room_id': self.room_id,
+            }
+            r = requests.get(url, params=params)
+            r.raise_for_status()
+            data = r.json()
+            point = data["event"]["ranking"]["point"]
             point_list = self.point or []
             point_list.append(point)
             self.point = point_list
@@ -82,4 +77,8 @@ class Room(models.Model):
             print(f'[INFO][Room.get_point({self.room_id=})]ポイントを取得しました。({point=})')
 
         except Exception as e:
+            point_list = self.point or []
+            point_list.append(None)
+            self.point = point_list
+            self.save()
             print(f'[ERROR][Room.get_point({self.room_id=})]ポイント取得に失敗しました({e})')

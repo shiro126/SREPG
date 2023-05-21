@@ -64,8 +64,9 @@ class SREvent(models.Model):
 
     def make_datasets(self):
         # グラフ用のデータセットを作成
+        room_list = [x for x in self.room.all() if x.last_point > 0]
         room_list = sorted(
-            list(self.room.all()),
+            room_list,
             key=lambda x: x.last_point,
             reverse=True,
         )
@@ -77,26 +78,31 @@ class SREvent(models.Model):
         try:
             print(f'[INFO][SREvent.initialize({self.event_id=})]イベント初期化処理を開始します')
             from graph.models import Room
-            try:
-                url = consts.API_EVENT_ROOM_LIST
-                params = {
-                    'event_id': self.event_id,
-                }
-                r = requests.get(url, params=params)
-                r.raise_for_status()
-                data = r.json()
-            except Exception as e:
-                print(f'[ERROR][SREvent.initialize({self.event_id=})]イベント参加ルーム一覧API実行時にエラーが発生しました。({e})')
-                raise e
-
-            soup = bs(data['html'], 'html.parser')
-            a_list = soup.find_all('a')
             room_id_list = []
-            for a in a_list:
+            next_page = 1
+            while next_page:
                 try:
-                    room_id_list.append(a.attrs['data-room-id'])
-                except Exception:
-                    pass
+                    url = consts.API_EVENT_ROOM_LIST
+                    params = {
+                        'event_id': self.event_id,
+                        'p': next_page,
+                    }
+                    r = requests.get(url, params=params)
+                    r.raise_for_status()
+                    data = r.json()
+                except Exception as e:
+                    print(f'[ERROR][SREvent.initialize({self.event_id=})]イベント参加ルーム一覧API実行時にエラーが発生しました。({e})')
+                    raise e
+
+                soup = bs(data['html'], 'html.parser')
+                a_list = soup.find_all('a')
+                for a in a_list:
+                    try:
+                        room_id_list.append(a.attrs['data-room-id'])
+                    except Exception:
+                        pass
+
+                next_page = data['next_page']
 
             for room_id in room_id_list:
                 try:
@@ -129,10 +135,10 @@ class SREvent(models.Model):
             q_hour = datetime.timedelta(minutes=15)
 
             while time < self.end_dt:
-                schedule_list.append(time.strftime('%Y/%m/%d %H:%M'))
+                schedule_list.append(time.strftime('%m/%d %H:%M'))
                 time = time + q_hour
 
-            schedule_list.append(self.end_dt_tz.strftime('%Y/%m/%d %H:%M'))
+            schedule_list.append(self.end_dt_tz.strftime('%m/%d %H:%M'))
 
             self.schedule = schedule_list
             # 公開済にする
