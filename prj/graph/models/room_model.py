@@ -48,7 +48,13 @@ class Room(models.Model):
     @property
     def point_increment(self):
         if type(self.point) == list:
-            if len(self.point) > 2:
+            if len(self.point) > 4:
+                return self.point[-1] - self.point[-5]
+            elif len(self.point) > 3:
+                return self.point[-1] - self.point[-4]
+            elif len(self.point) > 2:
+                return self.point[-1] - self.point[-3]
+            elif len(self.point) > 1:
                 return self.point[-1] - self.point[-2]
             elif len(self.point) > 0:
                 return self.point[-1]
