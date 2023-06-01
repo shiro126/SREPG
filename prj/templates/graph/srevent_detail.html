@@ -38,36 +38,40 @@
             </div>
             <div class="card-body p-0">
               <table class="table table-sm table-striped">
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th>ルーム名</th>
-                  <th class="text-end">ポイント</th>
-                  <th class="align-middle text-end small text-secondary">変動(1時間)</th>
-                  <th></th>
-                </tr>
-                {% for room in object.room_ranking %}
-                <tr>
-                  <td class="px-md-5"></td>
-                  <td class="align-middle text-center">
-                    {% if forloop.counter == 1 %}<span class="h3" style="color: #bbaa00;">❶</span>
-                    {% elif forloop.counter == 2 %}<span class="h3" style="color: #999999;">❷</span>
-                    {% elif forloop.counter == 3 %}<span class="h3" style="color: #ac6b25;">❸</span>
-                    {% else %}{{ forloop.counter }}
-                    {% endif %}
-                  </td>
-                  <td class="align-middle">{{ room.name }}</td>
-                  <td class="align-middle text-end">{{ room.last_point|intcomma:False }} pt</td>
-                  <td class="align-middle text-end text-secondary small">+ {{ room.point_increment|intcomma:False }} pt</td>
-                  <td class="px-md-5"></td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="4">
-                    表示できるルームがありません。
-                  </td>
-                <tr>
-                {% endfor %}
+                <thead>
+                  <tr class="table-secondary">
+                    <th></th>
+                    <th></th>
+                    <th>ルーム名</th>
+                    <th class="text-end pe-2">ポイント</th>
+                    <th class="align-middle text-end small text-secondary pe-2">変動(1時間)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for room in object.room_ranking %}
+                  <tr>
+                    <td class="px-md-5"></td>
+                    <td class="align-middle text-center">
+                      {% if forloop.counter == 1 %}<span class="h3" style="color: #bbaa00;">❶</span>
+                      {% elif forloop.counter == 2 %}<span class="h3" style="color: #999999;">❷</span>
+                      {% elif forloop.counter == 3 %}<span class="h3" style="color: #ac6b25;">❸</span>
+                      {% else %}{{ forloop.counter }}
+                      {% endif %}
+                    </td>
+                    <td class="align-middle">{{ room.name }}</td>
+                    <td class="align-middle text-end">{{ room.last_point|intcomma:False }} pt</td>
+                    <td class="align-middle text-end text-secondary small">+ {{ room.point_increment|intcomma:False }} pt</td>
+                    <td class="px-md-5"></td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="6">
+                      表示できるルームがありません。
+                    </td>
+                  <tr>
+                  {% endfor %}
+                </tbody>
               </table>
             </div>
           </div>

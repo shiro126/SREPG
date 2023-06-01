@@ -9,31 +9,33 @@
 <div class="row my-4">
         <div class="col">
           <div class="card border-dark">
-            <div class="card-header  bg-dark text-light">
+            <div class="card-header bg-dark text-light">
               <span class="h5"><i class="fa-solid fa-list-ul me-3"></i>Event List</span>
             </div>
             <div class="card-body p-0">
-              <table class="table table-striped">
-                <tr>
-                  <th></th>
-                  <th>イベント名</th>
-                  <th>開催期間</th>
-                  <th></th>
-                </tr>
-                {% for event in object_list %}
-                <tr>
-                  <td class="align-middle text-center">{{ event.get_badge|safe }}</td>
-                  <td class="align-middle">{{ event.title }}</td>
-                  <td class="align-middle">{{ event.start_dt }} - {{ event.end_dt }}</td>
-                  <td class="align-middle"><a href="{% url 'graph:detail' event.id %}" class="btn btn-sm btn-success" title="グラフを表示" data-bs-toggle="tooltip"><i class="fa-solid fa-chart-line"></i></a>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="3">
-                    表示できるイベントがありません。
-                  </td>
-                <tr>
-                {% endfor %}
+              <table class="table table-hover">
+                <thead>
+                  <tr class="table-secondary">
+                    <th></th>
+                    <th class="text-center">イベント名</th>
+                    <th class="text-center">開催期間</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for event in object_list %}
+                  <tr data-href="{% url 'graph:detail' event.id %}">
+                    <td class="align-middle text-center">{{ event.get_badge|safe }}</td>
+                    <td class="align-middle text-center">{{ event.title }}</td>
+                    <td class="align-middle text-center">{{ event.start_dt }} - {{ event.end_dt }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="3">
+                      表示できるイベントがありません。
+                    </td>
+                  <tr>
+                  {% endfor %}
+                </tbody>
               </table>
             </div>
           </div>
@@ -47,5 +49,14 @@
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
+  //data-hrefの属性を持つtrを選択しclassにclickableを付加
+  $('tr[data-href]').addClass('clickable').click(function(e) {
+    //e.targetはクリックした要素自体、それがa要素以外であれば
+    if(!$(e.target).is('a')){
+      //その要素の先祖要素で一番近いtrの
+      //data-href属性の値に書かれているURLに遷移する
+      window.location = $(e.target).closest('tr').data('href');
+    }
+  });
 </script>
 {% endblock %}
