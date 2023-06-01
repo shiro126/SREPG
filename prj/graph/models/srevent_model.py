@@ -5,6 +5,7 @@ import pytz
 import json
 from bs4 import BeautifulSoup as bs
 from django.db import models
+from django.utils import timezone
 from graph import consts
 
 # Create your models here.
@@ -70,6 +71,33 @@ class SREvent(models.Model):
             reverse=True,
         )
         return room_list
+
+    def is_started(self):
+        now_dt = timezone.now()
+        return self.start_dt_tz < now_dt
+
+    def is_finished(self):
+        now_dt = timezone.now()
+        return self.end_dt_tz < now_dt
+
+    def get_badge_text(self):
+        if self.is_finished():
+            return "終了"
+        elif self.is_started():
+            return "開催中"
+        else:
+            return "開催前"
+
+    def get_badge_class(self):
+        if self.is_finished():
+            return "bg-secondary text-light"
+        elif self.is_started():
+            return "bg-danger text-light"
+        else:
+            return "bg-warning text-dark"
+
+    def get_badge(self):
+        return f'<span class="badge rounded-pill {self.get_badge_class()}">{self.get_badge_text()}</span>'
 
     def make_datasets(self):
         # グラフ用のデータセットを作成
