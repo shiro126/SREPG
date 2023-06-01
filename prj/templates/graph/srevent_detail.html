@@ -5,25 +5,25 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Font Awsome -->
+    <script src="https://kit.fontawesome.com/56965aae4b.js" crossorigin="anonymous"></script>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'icon/favicon.ico' %}">
 
     <title>{{ object.title }}</title>
-
-    <!-- favicon -->
-    <link rel="icon" href="{% static '/icon/favicon.ico' %}">
   </head>
   <body>
-    <div class="bg-info text-light p-2">
-      <h3>SR Event Point Graph</h3>
+    <div class="bg-dark text-light">
+      <img src="{% static 'icon/favicon.ico' %}" width="40px" class="m-3"><span class="h3 align-middle">SR Event Point Graph</span>
     </div>
     <div class="container">
       <div class="row my-4">
         <div class="col">
-          <div class="card">
-            <div class="card-header">
-              <h4>{{ object.title }}</h4>
+          <div class="card border-dark">
+            <div class="card-header bg-dark text-light">
+              <span class="h5"><i class="fa-solid fa-chart-line me-3"></i>{{ object.title }}</span>
             </div>
             <div class="card-body px-0 py-2">
               <div id="chart_wrapper" class="overflow-x-hidden" style="width: 100%;">
@@ -43,22 +43,32 @@
       </div>
       <div class="row my-4">
         <div class="col">
-          <div class="card">
-            <div class="card-header">
-              <span class="h4">Ranking</span>
-              <span class="text-secondary small ml-3">{{ object.last_watch_dt }}現在</span>
+          <div class="card border-dark">
+            <div class="card-header bg-dark text-light">
+              <span class="h5"><i class="fa-solid fa-ranking-star me-3"></i>Ranking</span>
+              <span class="small ms-2">{{ object.last_watch_dt }}現在</span>
             </div>
             <div class="card-body p-0">
               <table class="table table-sm table-striped">
                 <tr>
-                  <th class="pl-4">#</th>
+                  <th></th>
                   <th>ルーム名</th>
                   <th>ポイント</th>
                   <th class="align-middle small text-secondary">変動(1時間)</th>
                 </tr>
                 {% for room in object.room_ranking %}
                 <tr>
-                  <td class="align-middle pl-4">{{ forloop.counter }}</td>
+                  <td class="align-middle text-center">
+                    {% if forloop.counter == 1 %}
+                    <span class="badge bg-warning rounded">{{ forloop.counter }}</span>
+                    {% elif forloop.counter == 2 %}
+                    <span class="badge bg-secondary rounded">{{ forloop.counter }}</span>
+                    {% elif forloop.counter == 3 %}
+                    <span class="badge bg-danger rounded">{{ forloop.counter }}</span>
+                    {% else %}
+                    <span class="badge text-dark">{{ forloop.counter }}</span>
+                    {% endif %}
+                  </td>
                   <td class="align-middle">{{ room.name }}</td>
                   <td class="align-middle">{{ room.last_point }} pt</td>
                   <td class="align-middle text-secondary small">+ {{ room.point_increment }} pt</td>
@@ -111,7 +121,6 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   </body>
 </html>
