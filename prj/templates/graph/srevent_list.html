@@ -22,7 +22,7 @@
                 </tr>
                 {% for event in object_list %}
                 <tr>
-                  <td class="align-middle">{{ event.get_badge|safe }}</td>
+                  <td class="align-middle text-center">{{ event.get_badge|safe }}</td>
                   <td class="align-middle">{{ event.title }}</td>
                   <td class="align-middle">{{ event.start_dt }} - {{ event.end_dt }}</td>
                   <td class="align-middle"><a href="{% url 'graph:detail' event.id %}" class="btn btn-sm btn-success" title="グラフを表示" data-bs-toggle="tooltip"><i class="fa-solid fa-chart-line"></i></a>

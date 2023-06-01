@@ -20,9 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i8fs$h&04t6fmqy)nf*58@c^8cv$lm@b#o^ae(n%9!7nm3q!im'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -38,7 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'myutil',
     'graph',
+    'star',
 ]
 
 MIDDLEWARE = [
@@ -124,9 +124,19 @@ STATIC_URL = 'static/'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, "static"),
 # )
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")

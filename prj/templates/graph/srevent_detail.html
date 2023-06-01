@@ -1,5 +1,6 @@
 {% extends 'graph/srevent_base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block header %}
 <title>{{ object.title }}</title>
@@ -10,7 +11,7 @@
   <div class="col">
     <div class="card border-dark">
       <div class="card-header bg-dark text-light align-middle">
-        <i class="fa-solid fa-chart-line me-3"></i><span class="h5">{{ object.title }}{{ object.get_badge|safe }}</span>
+        <span class="h5">{{ object.get_badge|safe }} {{ object.title }}</span>
       </div>
       <div class="card-body px-0 py-2">
         <div id="chart_wrapper" class="overflow-x-hidden" style="width: 100%;">
@@ -39,26 +40,26 @@
               <table class="table table-sm table-striped">
                 <tr>
                   <th></th>
+                  <th></th>
                   <th>ルーム名</th>
-                  <th>ポイント</th>
-                  <th class="align-middle small text-secondary">変動(1時間)</th>
+                  <th class="text-end">ポイント</th>
+                  <th class="align-middle text-end small text-secondary">変動(1時間)</th>
+                  <th></th>
                 </tr>
                 {% for room in object.room_ranking %}
                 <tr>
+                  <td class="px-md-5"></td>
                   <td class="align-middle text-center">
-                    {% if forloop.counter == 1 %}
-                    <span class="badge bg-warning rounded">{{ forloop.counter }}</span>
-                    {% elif forloop.counter == 2 %}
-                    <span class="badge bg-secondary rounded">{{ forloop.counter }}</span>
-                    {% elif forloop.counter == 3 %}
-                    <span class="badge bg-danger rounded">{{ forloop.counter }}</span>
-                    {% else %}
-                    <span class="badge text-dark">{{ forloop.counter }}</span>
+                    {% if forloop.counter == 1 %}<span class="h3" style="color: #bbaa00;">❶</span>
+                    {% elif forloop.counter == 2 %}<span class="h3" style="color: #999999;">❷</span>
+                    {% elif forloop.counter == 3 %}<span class="h3" style="color: #ac6b25;">❸</span>
+                    {% else %}{{ forloop.counter }}
                     {% endif %}
                   </td>
                   <td class="align-middle">{{ room.name }}</td>
-                  <td class="align-middle">{{ room.last_point }} pt</td>
-                  <td class="align-middle text-secondary small">+ {{ room.point_increment }} pt</td>
+                  <td class="align-middle text-end">{{ room.last_point|intcomma:False }} pt</td>
+                  <td class="align-middle text-end text-secondary small">+ {{ room.point_increment|intcomma:False }} pt</td>
+                  <td class="px-md-5"></td>
                 </tr>
                 {% empty %}
                 <tr>
