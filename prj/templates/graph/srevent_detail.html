@@ -1,10 +1,10 @@
-{% extends 'graph/srevent_base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
 
 {% block header %}
 {% include 'graph/twitter_card.html' with title=object.title %}
-<title>{{ object.title }}</title>
+<title>{{ object.title }} - BAKU Portal</title>
 {% endblock %}
 
 {% block container %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+{% include 'graph/twitter_card.html' with title='BAKU Portal' %}
+<title>500 Server Error - BAKU Portal</title>
+{% endblock %}
+
+{% block container %}
+<div class="row my-4 justify-content-center">
+  <div class="col-sm-12 col-md-10 col-xl-8">
+    <div class="card bg-dark text-light">
+      <div class="row g-0">
+        <div class="col-3 col-sm-4 d-flex align-items-center">
+          <img src="{% static 'image/logo.png' %}" width="100%" alt="baku">
+        </div>
+        <div class="col-8">
+          <div class="card-body">
+            <p class="card-title "><span class="display-1 fw-bold me-3">500</span><span class="display-5 text-nowrap">Server Error</span></p>
+            <p class="card-text">This page isn't working.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

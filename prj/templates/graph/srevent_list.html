@@ -1,47 +1,47 @@
-{% extends 'graph/srevent_base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block header %}
-{% include 'graph/twitter_card.html' with title='SR Event Point Graph' %}
-<title>SR Event Point Graph</title>
+{% include 'graph/twitter_card.html' with title='BAKU Portal' %}
+<title>BAKU Portal</title>
 {% endblock %}
 
 {% block container %}
 <div class="row my-4">
-        <div class="col">
-          <div class="card border-dark">
-            <div class="card-header bg-dark text-light">
-              <span class="h5"><i class="fa-solid fa-list-ul me-3"></i>Event List</span>
-            </div>
-            <div class="card-body p-0">
-              <table class="table table-hover">
-                <thead>
-                  <tr class="table-secondary">
-                    <th></th>
-                    <th class="text-center">イベント名</th>
-                    <th class="text-center">開催期間</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for event in object_list %}
-                  <tr data-href="{% url 'graph:detail' event.id %}">
-                    <td class="align-middle text-center">{{ event.get_badge|safe }}</td>
-                    <td class="align-middle text-center">{{ event.title }}</td>
-                    <td class="align-middle text-center">{{ event.start_dt }} - {{ event.end_dt }}</td>
-                  </tr>
-                  {% empty %}
-                  <tr>
-                    <td colspan="3">
-                      表示できるイベントがありません。
-                    </td>
-                  <tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+  <div class="col">
+    <div class="card border-dark">
+      <div class="card-header bg-dark text-light">
+        <span class="h5"><i class="fa-solid fa-list-ul me-3"></i>Event List</span>
       </div>
+      <div class="card-body p-0">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-secondary">
+              <th></th>
+              <th class="text-center">イベント名</th>
+              <th class="text-center">開催期間</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in object_list %}
+            <tr data-href="{% url 'graph:detail' event.id %}">
+              <td class="align-middle text-center">{{ event.get_badge|safe }}</td>
+              <td class="align-middle text-center">{{ event.title }}</td>
+              <td class="align-middle text-center">{{ event.start_dt }} - {{ event.end_dt }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3">
+                表示できるイベントがありません。
+              </td>
+            <tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block script %}
