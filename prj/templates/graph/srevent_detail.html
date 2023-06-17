@@ -80,41 +80,58 @@
 {% endblock %}
 
 {% block script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
 <script>
+  const autocolors = window['chartjs-plugin-autocolors'];
+  Chart.register(autocolors);
+  const step = 48;
   var labels = {{ object.schedule_json|safe }};
-  var max_ticks_limit = Math.round(labels.length/47);
   var chartl = document.getElementById('myChartLarge');
   var charts = document.getElementById('myChartSmall');
   var ctxl = chartl.getContext('2d');
   var ctxs = charts.getContext('2d');
+  var grid_index = 0;
   var data = {
     "type": "line",
     "data": {
       "labels": labels,
       "datasets": {{ object.make_datasets|safe }},
     },
-    "options":{
-     "legend": {
-         "position": "bottom",
-         "labels": {
-           "boxWidth": 20
-         }
-      },
+    "options": {
       "plugins": {
-        "colorschemes": {
-          "scheme": "tableau.Classic20"
-        }
+        "legend": {
+          "position": "bottom",
+          "labels": {
+            "boxWidth": 20
+          }
+        },
+        "autocolors": {
+          "mode": 'label'
+        },
       },
       "scales": {
-        "xAxes": [
-          {
-            "ticks": {
-              "maxTicksLimit": max_ticks_limit
-            }
+        "x": {
+          "ticks": {
+            "autoSkip": false,
+            "callback": function(val, index) {
+              return index % step === 0 ? this.getLabelForValue(val) : '';
+            },
+          },
+          "grid": {
+            "color": function(context) {
+              if (context.tick.value % step === 0) {
+                return "rgba(0, 0, 0, 0.1)";
+              } else {
+                return "rgba(0, 0, 0, 0)";
+              }
+            },
           }
-        ]
+        },
+        "y": {
+          "min": 0,
+          "suggestedMax": 600000,
+        }
       }
     }
   }
