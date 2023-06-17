@@ -61,8 +61,8 @@
                       {% endif %}
                     </td>
                     <td class="align-middle">{{ room.name }}</td>
-                    <td class="align-middle text-end">{{ room.last_point|intcomma:False }} pt</td>
-                    <td class="align-middle text-end text-secondary small">+ {{ room.point_increment|intcomma:False }} pt</td>
+                    <td class="align-middle text-end font-monospace">{{ room.last_point|intcomma:False }} pt</td>
+                    <td class="align-middle text-end text-secondary font-monospace small">+ {{ room.point_increment|intcomma:False }} pt</td>
                     <td class="px-md-5"></td>
                   </tr>
                   {% empty %}
@@ -84,7 +84,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
 <script>
   var labels = {{ object.schedule_json|safe }};
-  var max_ticks_limit = Math.floor(labels.length/48);
+  var max_ticks_limit = Math.round(labels.length/47);
   var chartl = document.getElementById('myChartLarge');
   var charts = document.getElementById('myChartSmall');
   var ctxl = chartl.getContext('2d');
