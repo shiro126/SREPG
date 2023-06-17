@@ -84,6 +84,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
 <script>
   var labels = {{ object.schedule_json|safe }};
+  var max_ticks_limit = Math.floor(labels.length/48);
   var chartl = document.getElementById('myChartLarge');
   var charts = document.getElementById('myChartSmall');
   var ctxl = chartl.getContext('2d');
@@ -105,6 +106,15 @@
         "colorschemes": {
           "scheme": "tableau.Classic20"
         }
+      },
+      "scales": {
+        "xAxes": [
+          {
+            "ticks": {
+              "maxTicksLimit": max_ticks_limit
+            }
+          }
+        ]
       }
     }
   }
