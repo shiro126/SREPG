@@ -24,7 +24,7 @@
           </thead>
           <tbody>
             {% for event in object_list %}
-            <tr data-href="{% url 'graph:detail' event.id %}">
+            <tr data-href="{% url 'graph:detail' event.event_id %}">
               <td class="align-middle text-center">{{ event.get_badge|safe }}</td>
               <td class="align-middle text-center">{{ event.title }}</td>
               <td class="align-middle text-center">{{ event.start_dt }} - {{ event.end_dt }}</td>
