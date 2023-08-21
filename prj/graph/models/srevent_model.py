@@ -20,6 +20,7 @@ class SREvent(models.Model):
     )
     event_id = models.IntegerField(
         verbose_name='イベントID',
+        unique=True,
     )
     start_dt = models.DateTimeField(
         verbose_name='開始日時',

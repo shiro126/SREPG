@@ -136,7 +136,7 @@ try:
 except ImportError:
     pass
 
-
-if not DEBUG:
-    SECRET_KEY = os.environ['SECRET_KEY']
-    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+SECRET_KEY = 'django-insecure-i8fs$h&04t6fmqy)nf*58@c^8cv$lm@b#o^ae(n%9!7nm3q!im'
+# if not DEBUG:
+    # SECRET_KEY = os.environ['SECRET_KEY']
+    # STATIC_ROOT = os.path.join(BASE_DIR, "static")
