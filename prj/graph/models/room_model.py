@@ -71,6 +71,7 @@ class Room(models.Model):
           "pointHitRadius": 3,
           "pointHoverRadius": 2,
           "fill": False,
+          "spanGaps": True,
         }
         return dataset
 
